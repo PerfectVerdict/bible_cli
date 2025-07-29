@@ -2,6 +2,8 @@
 Look up Bible verses right from your terminal using a clean, offline-friendly Elixir CLI backed by bible-api.com.
 
 ✅ Installation
+Windows:
+just download the .exe and click it to use it.
 🐧 Linux / 🍎 macOS
 Download the latest release:
 
@@ -21,7 +23,6 @@ john 3:16
 And it will display:
 John 3:16: For God so loved the world...
 
-⚠️ Native Windows .exe support coming soon (via cross-compilation or Elixir script + escript for Windows)
 
 📦 Built With
 Elixir
