@@ -26,7 +26,7 @@ jobs:
       - name: Build Release
         run: $env:MIX_ENV = "prod"; mix release bible_lookup
 
-         - name: Zip Release
+      - name: Zip Release
         run: Compress-Archive -Path _build\prod\rel\bible_lookup\* -DestinationPath bible_lookup.zip
 
       - name: Create GitHub Release
