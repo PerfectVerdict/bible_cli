@@ -1,0 +1,36 @@
+name: Build Windows .exe
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.17.0'
+          otp-version: '26.2'
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Build escript
+        run: mix escript.build
+
+      - name: Rename to .exe
+        run: Rename-Item -Path bible_lookup -NewName bible_lookup.exe
+
+      - name: Upload .exe to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: bible_lookup.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
