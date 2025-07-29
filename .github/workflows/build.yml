@@ -1,38 +1,46 @@
-name: Build and release BibleLookup
+name: Build and Release BibleLookup
 
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*'  # Trigger on tags like v0.1.0, v0.2.0, etc.
 
 jobs:
   build-windows:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: erlef/setup-beam@v1
+      - name: Set up Elixir & Erlang
+        uses: erlef/setup-beam@v1
         with:
           elixir-version: '1.17.3'
           otp-version: '26.2'
-          version-type: 'strict'
+          version-type: strict
 
-      - run: mix local.hex --force && mix local.rebar --force
+      - name: Install dependencies
+        run: MIX_ENV=prod mix deps.get
 
-      - run: mix deps.get
+      - name: Build Release
+        run: MIX_ENV=prod mix release bible_lookup
 
-      - run: mix escript.build
+      - name: Zip Release
+        run: Compress-Archive -Path _build\prod\rel\bible_lookup\* -DestinationPath bible_lookup.zip
 
-      - name: Rename to .exe
-        run: Rename-Item -Path bible_lookup -NewName bible_lookup.exe
-        shell: pwsh
-
-      - name: Create release and upload exe
+      - name: Create GitHub Release
+        id: create_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          files: bible_lookup.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: bible_lookup.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

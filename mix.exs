@@ -1,13 +1,18 @@
 defmodule BibleLookup.MixProject do
   use Mix.Project
-def project do
+  def project do
   [
     app: :bible_lookup,
     version: "0.1.0",
     elixir: "~> 1.17",
     start_permanent: Mix.env() == :prod,
     deps: deps(),
-    escript: [main_module: BibleLookup.CLI]  # <-- Add this line
+    releases: [
+      bible_lookup: [
+        include_erts: true,
+        include_executables_for: [:windows, :unix]
+      ]
+    ]
   ]
 end
   # Run "mix help compile.app" to learn about applications.
