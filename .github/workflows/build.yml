@@ -3,7 +3,7 @@ name: Build and release BibleLookup
 on:
   push:
     tags:
-      - 'v*'     # Run on version tags like v0.1.0, v0.2.0, etc.
+      - 'v*'  # Trigger on version tags like v0.1.0, v0.2.0, etc.
 
 jobs:
   build-windows:
@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Elixir
+      - name: Set up Elixir & Erlang
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.17.4'
-          otp-version: '26.2'
+          elixir-version: '1.17.3'   # Known available Elixir version
+          otp-version: '26.2'        # Known available OTP version for Windows
           version-type: 'strict'
 
       - name: Install Hex and Rebar
@@ -32,11 +32,13 @@ jobs:
       - name: Rename to .exe
         run: Rename-Item -Path bible_lookup -NewName bible_lookup.exe
 
-      - name: Create release
+      - name: Create GitHub release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload .exe to release
         uses: softprops/action-gh-release@v2
