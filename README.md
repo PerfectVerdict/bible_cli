@@ -1,21 +1,35 @@
-# BibleLookup
+📖 Bible Lookup CLI
+Look up Bible verses right from your terminal using a clean, offline-friendly Elixir CLI backed by bible-api.com.
 
-**TODO: Add description**
+✅ Installation
+🐧 Linux / 🍎 macOS
+Download the latest release:
 
-## Installation
+Go to the Releases page and download the bible_lookup binary.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `bible_lookup` to your list of dependencies in `mix.exs`:
+Make it executable:
+chmod +x bible_lookup
+Move it to your path by running the following: 
+sudo mv bible_lookup /usr/local/bin/
 
-```elixir
-def deps do
-  [
-    {:bible_lookup, "~> 0.1.0"}
-  ]
-end
-```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/bible_lookup>.
+🧪 Usage
+After installation, in your terminal run:
+bible_lookup
+You’ll be prompted to enter a Bible verse like:
+john 3:16
+And it will display:
+John 3:16: For God so loved the world...
+
+⚠️ Native Windows .exe support coming soon (via cross-compilation or Elixir script + escript for Windows)
+
+📦 Built With
+Elixir
+
+Bible API
+
+Mix escript
+
+
+Native Windows .exe builds
 
